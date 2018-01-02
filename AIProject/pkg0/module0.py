@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
+print("Begins.")
+
 #200 random range from -0.5 to 0.5 in one column.
 #x_data is uniform distributed. Values are always the same.
 x_data = np.linspace(-0.5, 0.5, 200)[:,np.newaxis]
@@ -10,6 +12,7 @@ noise = np.random.normal(0, 0.02, x_data.shape)
 #y_data = x_data^2 + noise
 y_data = np.square(x_data) + noise
 
+#What is None?
 x = tf.placeholder(tf.float32, [None, 1])
 y = tf.placeholder(tf.float32, [None, 1])
 
@@ -46,9 +49,9 @@ with tf.Session() as sess:
     plt.scatter(x_data, y_data)
     plt.plot(x_data, prediction_value, 'r-', lw=5)
     #plt.show Doesn't work in Eclipse.
-    plt.savefig('filename.svg')
+    plt.savefig("graph0.svg")
 
-
+print("Done.")
 
 
 
