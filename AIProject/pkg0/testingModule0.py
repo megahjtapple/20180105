@@ -5,3 +5,7 @@ print(sess.run(hello))
 
 index = 0
 print("index="+str(index))
+
+
+
+
