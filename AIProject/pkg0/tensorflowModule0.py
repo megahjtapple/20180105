@@ -9,10 +9,14 @@ print("Begins.")
 #200 random range from -0.5 to 0.5 in one column.
 #x_data is uniform distributed. Values are always the same.
 x_data = np.linspace(-0.5, 0.5, 200)[:,np.newaxis]
+print("x_data:")
+print(str(x_data))
 #noise are some random numbers. Values are different each time.
 noise = np.random.normal(0, 0.02, x_data.shape)
 #y_data = x_data^2 + noise
 y_data = np.square(x_data) + noise
+print("y_data:")
+print(str(y_data))
 
 #What is None?
 x = tf.placeholder(tf.float32, [None, 1])

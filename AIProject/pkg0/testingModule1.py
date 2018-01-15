@@ -18,7 +18,7 @@ print("a 的 type：" + str(type(a)))
 print("a 的 Data：")
 print(str(a) + "\n")
 
-print("测试 a = np.linspace(0, 4, 5)[np.newaxis:]")
+print("测试 a = np.linspace(0, 4, 5)[np.newaxis,:]")
 a = np.linspace(0, 4, 5)[np.newaxis,:]
 print("a 的形状：" + str(a.shape))
 print("a 的 type：" + str(type(a)))
