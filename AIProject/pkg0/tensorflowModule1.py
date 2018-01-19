@@ -36,12 +36,12 @@ y = tf.placeholder(tf.float32, [None, 1])
 Weights_L1 =tf.Variable(tf.random_normal([1,10]));
 biases_L1 =tf.Variable(tf.zeros([1,10]));
 Wx_plus_b_L1 = tf.matmul(x, Weights_L1) + biases_L1
-# 下面这个是算切线的？为什么要这么做？
+# tf.nn.tanh 是激活函数。
 L1 = tf.nn.tanh(Wx_plus_b_L1)
 
 #Output layer
-Weights_L2 =tf.Variable(tf.random_normal([10,1]));
-biases_L2 =tf.Variable(tf.zeros([1,1]));
+Weights_L2 =tf.Variable(tf.random_normal([10,1])); #[10,1] 10 行 1 列。
+biases_L2 =tf.Variable(tf.zeros([1,1])); #输出层只有一个神经元。
 Wx_plus_b_L2 = tf.matmul(L1, Weights_L2) + biases_L2
 prediction = tf.nn.tanh(Wx_plus_b_L2)
 
@@ -67,6 +67,8 @@ with tf.Session() as sess:
 
         #Init variables
         sess.run(tf.global_variables_initializer())
+
+        #训练次数
         for _ in range(2000):
             sess.run(train_step, feed_dict={x:x_data, y:y_data})
 
