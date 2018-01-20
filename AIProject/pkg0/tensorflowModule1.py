@@ -32,7 +32,7 @@ y = tf.placeholder(tf.float32, [None, 1])
 #- tf.random_normal([1,10]) 里面的 1 代表着输入层只有一个神经元
 # [1,10]指的是 1 行 10 列。
 #  10 代表中间层有 10 个神经元。
-# tf.matmul(x, Weights_L1) 是指 w 乘以 x。不过根据网上找到的资料，很多例子用的都是 xw。
+# tf.matmul(x, Weights_L1) 是指 x 乘以 w。
 Weights_L1 =tf.Variable(tf.random_normal([1,10]));
 biases_L1 =tf.Variable(tf.zeros([1,10]));
 Wx_plus_b_L1 = tf.matmul(x, Weights_L1) + biases_L1
