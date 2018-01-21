@@ -6,17 +6,12 @@ import matplotlib.pyplot as plt
 
 print("Begins.")
 
-checkpoint_dir = "./"
+neuralNetworksLayer = 10
 
-#200 random range from -0.5 to 0.5 in one column.
-#x_data is uniform distributed. Values are always the same.
-x_data = np.linspace(-0.5, 0.5, 200)[:,np.newaxis]
+# 构建输入数据和预期输出数据。
+x_data = np.linspace(-0.2, 0.2, 5)[:,np.newaxis]
 print("x_data:")
 print(str(x_data))
-#noise are some random numbers. Values are different each time.
-#noise = np.random.normal(0, 0.02, x_data.shape)
-#y_data = x_data^2 + noise
-#y_data = np.square(x_data) + noise
 y_data = np.square(x_data)
 print("y_data:")
 print(str(y_data))
@@ -34,14 +29,14 @@ y = tf.placeholder(tf.float32, [None, 1])
 # [1,10]指的是 1 行 10 列。
 #  10 代表中间层有 10 个神经元。
 # tf.matmul(x, Weights_L1) 是指 x 乘以 w。
-Weights_L1 =tf.Variable(tf.random_normal([1,10]));
-biases_L1 =tf.Variable(tf.zeros([1,10]));
+Weights_L1 =tf.Variable(tf.random_normal([1,neuralNetworksLayer]));
+biases_L1 =tf.Variable(tf.zeros([1,neuralNetworksLayer]));
 Wx_plus_b_L1 = tf.matmul(x, Weights_L1) + biases_L1
 # tf.nn.tanh 是激活函数。
 L1 = tf.nn.tanh(Wx_plus_b_L1)
 
 #Output layer
-Weights_L2 =tf.Variable(tf.random_normal([10,1])); #[10,1] 10 行 1 列。
+Weights_L2 =tf.Variable(tf.random_normal([neuralNetworksLayer,1])); #[10,1] 10 行 1 列。
 biases_L2 =tf.Variable(tf.zeros([1,1])); #输出层只有一个神经元。
 Wx_plus_b_L2 = tf.matmul(L1, Weights_L2) + biases_L2
 prediction = tf.nn.tanh(Wx_plus_b_L2)
@@ -54,8 +49,8 @@ train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
 saver = tf.train.Saver()  # defaults to saving all variables - in this case w and b
 
+print("进行训练。")
 with tf.Session() as sess:
-    print("进行训练。")
 
     #Init variables
     sess.run(tf.global_variables_initializer())
@@ -66,6 +61,10 @@ with tf.Session() as sess:
 
     #Get predicted graph
     prediction_value = sess.run(prediction, feed_dict={x:x_data})
+    print("Weights_L2:")
+    sess.run(tf.Print(Weights_L2, [Weights_L2]))
+    print("prediction_value:")
+    print(prediction_value)
 
     #Draw graph
     plt.figure();
