@@ -35,6 +35,7 @@ biases_L1 =tf.Variable(tf.zeros([1,neuralNetworksLayer]));
 # 为什么 biases_L1 是 1 x neuralNetworksLayer？
 # 他们为什么可以相加？
 # 很可能 x 不是 [n, 1] 而是 [1, 1]。也就是说，x_data 到 x 是一个一个地进去的。
+# 根据打印出来的 Weights_L1 和 biases_L1 的形状来看，x 应该就是 [1, 1]。
 Wx_plus_b_L1 = tf.matmul(x, Weights_L1) + biases_L1
 # tf.nn.tanh 是激活函数。
 L1 = tf.nn.tanh(Wx_plus_b_L1)
@@ -62,13 +63,15 @@ with tf.Session() as sess:
     #训练次数
     for _ in range(2000):
         sess.run(train_step, feed_dict={x:x_data, y:y_data})
+        print("Data in training:")
+        print("Weights_L1:")
+        print(sess.run(Weights_L1))
+        print("biases_L1:")
+        print(sess.run(biases_L1))
+        print("-------------------------------------")
 
     #Get predicted graph
     prediction_value = sess.run(prediction, feed_dict={x:x_data})
-    print("Weights_L2:")
-    print(tf.Print(Weights_L2, [Weights_L2]))
-    print("prediction_value:")
-    print(prediction_value)
 
     #Draw graph
     plt.figure();
