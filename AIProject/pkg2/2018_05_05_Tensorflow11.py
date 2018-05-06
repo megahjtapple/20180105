@@ -19,6 +19,21 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
 # x_data is 300 row or 300 input sample.
 # np.linespace: Return evenly spaced numbers over a specified interval.
 # so np.linspace(-1,1,300) return 300 points between -1 to 1.
+# [:,np.newaxis] turns an array into [n x 1] metric where n is number of rows.
+# Example:
+# a=np.array([1,2,3,4,5])
+# b=a[:,np.newaxis]
+# print a.shape,b.shape
+# print a
+# print b
+# Output:
+# (5,) (5, 1)
+# [1 2 3 4 5]
+# [[1]
+#  [2]
+#  [3]
+#  [4]
+#  [5]]
 x_data = np.linspace(-1,1,300)[:, np.newaxis]
 # x_data.shape means the same shape as x_data.
 noise = np.random.normal(0, 0.05, x_data.shape)
@@ -53,9 +68,16 @@ prediction = add_layer(l1, 10, 1, activation_function=None)
 #   │[3]│
 #   └   ┘
 # But tf make shows [3, 3] instead when printing.
-# I guess reduction_indices=[1] means erase
+# I guess reduction_indices=[1] means erase.
+# Why calcualting mean here?
+# There are too many calculation here. I need to think about whether I should investigate it.
+# 1. The best case is I understand what's happening.
+# 2. If not, try looking at another examples to see whether this is the standard way to do it.
+# If so, may be I can just treat it as a black box and only focus on the input and output.
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction),
                      reduction_indices=[1]))
+
+# 0.1 is learning efficiency. < 1 usually.
 train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
 init = tf.global_variables_initializer()
