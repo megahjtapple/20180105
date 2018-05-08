@@ -6,14 +6,15 @@ import tensorflow as tf
 input1 = tf.placeholder(tf.float32)
 input2 = tf.placeholder(tf.float32)
 output = tf.multiply(input1, input2)
-# I was trying to print the value of the place holder but it doesn't work out.
-#input1Variable = tf.Variable(0.0, name='input1Variable')
-#input2Variable = tf.Variable(0.0, name='input2Variable')
-#copyInput1ToVariable = tf.assign(input1Variable, input1)
-#copyInput2ToVariable = tf.assign(input2Variable, input2)
+# Trying to print the value of the place holder.
+input1Variable = tf.Variable([0.0], name='input1Variable')
+input2Variable = tf.Variable([0.0], name='input2Variable')
+copyInput1ToVariable = tf.assign(input1Variable, input1)
+copyInput2ToVariable = tf.assign(input2Variable, input2)
 
 with tf.Session() as sess:
+    # Print value assigned into input1 and 2:
+    print("Value fed into input1:" + str(sess.run(copyInput1ToVariable, feed_dict={input1: [7.]})))
+    print("Value fed into input1:" + str(sess.run(copyInput2ToVariable, feed_dict={input2: [2.]})))
+    # Perform the calculation:
     print(sess.run(output, feed_dict={input1: [7.], input2: [2.]}))
-    # This feed_dict cause "shape not match" error?
-    #sess.run(copyInput1ToVariable, feed_dict={input1: [7.]})
-    #sess.run(copyInput2ToVariable, feed_dict={input2: [2.]})

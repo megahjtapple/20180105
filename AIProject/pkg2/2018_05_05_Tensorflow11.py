@@ -5,8 +5,12 @@ import tensorflow as tf
 import numpy as np
 
 def add_layer(inputs, in_size, out_size, activation_function=None):
-    # add one more layer and return the output of this layer
+    # Weight is a metric. Here tf.random_normal([in_size, out_size] create a metric which shape
+    # is in_size rows and out_size columns (This is what I think. Need to verify.)
     Weights = tf.Variable(tf.random_normal([in_size, out_size]))
+    # Biases is not a metric. It is something similar to list.
+    # Biases has 1 row, out_size columns.
+    # The recommended initial number for biases is none zero. This is why there is a +0.1 at the end.
     biases = tf.Variable(tf.zeros([1, out_size]) + 0.1)
     Wx_plus_b = tf.matmul(inputs, Weights) + biases
     if activation_function is None:
