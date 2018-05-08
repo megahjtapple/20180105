@@ -15,6 +15,6 @@ copyInput2ToVariable = tf.assign(input2Variable, input2)
 with tf.Session() as sess:
     # Print value assigned into input1 and 2:
     print("Value fed into input1:" + str(sess.run(copyInput1ToVariable, feed_dict={input1: [7.]})))
-    print("Value fed into input1:" + str(sess.run(copyInput2ToVariable, feed_dict={input2: [2.]})))
+    print("Value fed into input2:" + str(sess.run(copyInput2ToVariable, feed_dict={input2: [2.]})))
     # Perform the calculation:
     print(sess.run(output, feed_dict={input1: [7.], input2: [2.]}))
