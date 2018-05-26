@@ -87,6 +87,10 @@ loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction),
                      reduction_indices=[1]))
 
 # 0.1 is learning efficiency. < 1 usually.
+# This is the only step which causes tf.Variable to be updated.
+# In this training, tf.Variable are:
+# 1. W_l1, W_l2
+# 2. bias_l1, bias_l2
 train_step = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
 init = tf.global_variables_initializer()
@@ -107,7 +111,10 @@ for i in range(1000):
         # to see the step improvement
         print(sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
         print("xs:\n" + str(sess.run(xs, feed_dict={xs: x_data})))
+        print("ys:\n" + str(sess.run(ys, feed_dict={ys: y_data})))
         print("Weights_l1:\n" + str(sess.run(Weights_l1)))
+        print("biases_l1:\n" + str(sess.run(biases_l1)))
+        print("Wx_plus_b_l1\n" + str(sess.run(Wx_plus_b_l1, feed_dict={xs: x_data})))
         try:
             ax.lines.remove(lines[0])
         except Exception:
