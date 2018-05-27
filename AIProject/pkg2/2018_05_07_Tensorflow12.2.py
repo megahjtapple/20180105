@@ -8,25 +8,10 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
-def add_layer(inputs, in_size, out_size, activation_function=None):
-    # Weight is a metric. Here tf.random_normal([in_size, out_size] create a metric which shape
-    # is in_size rows and out_size columns (This is what I think. Need to verify.)
-    Weights = tf.Variable(tf.random_normal([in_size, out_size]))
-    # Biases is not a metric. It is something similar to list.
-    # Biases has 1 row, out_size columns.
-    # The recommended initial number for biases is none zero. This is why there is a +0.1 at the end.
-    biases = tf.Variable(tf.zeros([1, out_size]) + 0.1)
-    Wx_plus_b = tf.matmul(inputs, Weights) + biases
-    if activation_function is None:
-        outputs = Wx_plus_b
-    else:
-        outputs = activation_function(Wx_plus_b)
-    return outputs
-
 # Make up some real data
-# x_data is 300 row or 300 input sample.
+# x_data is 3 row or 3 input sample.
 # np.linespace: Return evenly spaced numbers over a specified interval.
-# so np.linspace(-1,1,300) return 300 points between -1 to 1.
+# so np.linspace(-1,1,3) return 3 points between -1 to 1 (which is [-1, 0, 1]).
 # [:,np.newaxis] turns an array into [n x 1] metric where n is number of rows.
 # Example:
 # a=np.array([1,2,3,4,5])
@@ -42,32 +27,36 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
 #  [3]
 #  [4]
 #  [5]]
-x_data = np.linspace(-1,1,5)[:, np.newaxis]
-# x_data.shape means the same shape as x_data.
-noise = np.random.normal(0, 0.05, x_data.shape)
-y_data = np.square(x_data) - 0.5 + noise
+# In here, x_data =
+# [[-1.]
+#  [ 0.]
+#  [ 1.]]
+# y_data =
+# [[ 0.5]
+#  [-0.5]
+#  [ 0.5]]
+x_data = np.linspace(-1,1,3)[:, np.newaxis]
+y_data = np.square(x_data) - 0.5
 
 # define placeholder for inputs to network
-# I believe that all data in x_data and y_data are feeded into these feeders immediately.
+# All data in x_data and y_data are feeded into these feeders immediately.
 xs = tf.placeholder(tf.float32, [None, 1])
 ys = tf.placeholder(tf.float32, [None, 1])
 
-# add hidden layer
-# Input is x_data which has only one data (each time?)
-# Output is 10 which means that the hidden layer has 10 nerve cells.
+# add hidden layer.
+# Weights_l1 has 1 row, 4 columns.
+# In tf, this means there are 4 nerve cell.
+Weights_l1 = tf.Variable(tf.random_normal([1, 4]))
+# biases_l1 has 1 row, 4 column as well.
+# When biases_l1 added into tf.matmul(xs, Weights_l1), it will be expaned to 3 rows 4 columns.
+# The two new columns looks exactly the same as the original first column.
+biases_l1 = tf.Variable(tf.zeros([1, 4]) + 0.1)
 # tf.nn.relu is one of the activation function provided by Tensorflow.
-# l1 = add_layer(xs, 1, 10, activation_function=tf.nn.relu)
-Weights_l1 = tf.Variable(tf.random_normal([1, 10]))
-biases_l1 = tf.Variable(tf.zeros([1, 10]) + 0.1)
 Wx_plus_b_l1 = tf.matmul(xs, Weights_l1) + biases_l1
 l1 = tf.nn.relu(Wx_plus_b_l1)
 
 # add output layer
-# Hmmm... why output layer doesn't need any activation functions?
-# Input data is 10 this time since the hidden has 10 nerve cells which means that
-# it has 10 outputs.
-# prediction = add_layer(l1, 10, 1, activation_function=None)
-Weights_l2 = tf.Variable(tf.random_normal([10, 1]))
+Weights_l2 = tf.Variable(tf.random_normal([4, 1]))
 biases_l2 = tf.Variable(tf.zeros([1, 1]) + 0.1)
 Wx_plus_b_l2 = tf.matmul(l1, Weights_l2) + biases_l2
 prediction = Wx_plus_b_l2
