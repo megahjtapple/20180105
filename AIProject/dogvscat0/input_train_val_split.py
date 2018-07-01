@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 #By @Kevin Xu
 #kevin28520@gmail.com
 #Youtube: https://www.youtube.com/channel/UCVCSn4qQXTDAtGWpWAe4Plw
